@@ -12,10 +12,16 @@ def main(argv=None) -> int:
     a = sub.add_parser("atender", help="responde uma mensagem")
     a.add_argument("mensagem")
     a.add_argument("--cliente", default=None)
+    a.add_argument("--modelo", choices=["regras", "ollama"], default="regras", help="classificador de intenção")
     sub.add_parser("avaliar", help="roda os casos de teste e imprime a taxa")
     args = p.parse_args(argv)
     if args.cmd == "atender":
-        r = atender(construir(), args.mensagem, args.cliente)
+        if args.modelo == "ollama":
+            from .llm import classificador_ollama
+            grafo = construir(classificador_ollama())
+        else:
+            grafo = construir()
+        r = atender(grafo, args.mensagem, args.cliente)
         print(json.dumps(r, ensure_ascii=False, indent=2))
         return 0
     r = avaliar()

@@ -23,10 +23,10 @@ agente-langgraph avaliar
 
 ## Avaliação
 10 casos (`avaliacao.py`) checam o **caminho no grafo**, se escalou e o texto da resposta. Resultado local: **10/10 (100%)**,
-8 testes pytest passando. É um conjunto pequeno e escrito por mim, então mostra que o fluxo está correto, não que o
+12 testes pytest passando. É um conjunto pequeno e escrito por mim, então mostra que o fluxo está correto, não que o
 agente resolve qualquer conversa.
 
 ## Limites
 - A classificação é por palavras-chave; frases fora do vocabulário vão para humano (falha segura, mas escala demais).
-- Ferramentas via MCP e classificador com Ollama ainda não foram ligados (próximo passo).
+- O classificador com Ollama (`atender --modelo ollama`, `llm.py`) foi testado só com respostas simuladas; execução real não medida. Ferramentas via MCP ainda não foram ligadas.
 - O ecossistema de agentes do mesmo autor com tool calling e modelos abertos: [agente-banco](https://github.com/arthurpenedo/agente-banco).
