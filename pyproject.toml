@@ -1,0 +1,25 @@
+[project]
+name = "agente-langgraph"
+version = "0.1.0"
+description = "Agente de atendimento bancário com LangGraph: estados explícitos (identificar, consultar, escalar) e avaliação automática"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["langgraph>=0.2"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+ollama = ["requests"]
+
+[project.scripts]
+agente-langgraph = "agente_langgraph.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 110
