@@ -16,7 +16,7 @@ START → identificar ─┬─ intenção conhecida → consultar → END
 
 ## Usar
 ```
-pip install -e ".[dev]"
+pip install -e ".[dev,mcp]"
 agente-langgraph atender "qual meu saldo?" --cliente c1
 agente-langgraph avaliar
 agente-langgraph atender "bloqueia meu cartão" --cliente c2 --mcp   # ferramentas via MCP (stdio)
