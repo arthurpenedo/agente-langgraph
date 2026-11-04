@@ -46,7 +46,11 @@ def classificar(mensagem: str) -> str:
     return "desconhecida"
 
 
-def construir(classificador: Callable[[str], str] = classificar):
+def _local(nome: str, cliente_id: str) -> str:
+    return ferramentas.FERRAMENTAS[nome](cliente_id)
+
+
+def construir(classificador: Callable[[str], str] = classificar, executor: Callable[[str, str], str] = _local):
     def identificar(e: Estado) -> Estado:
         caminho = e.get("caminho", []) + ["identificar"]
         if not e.get("cliente_id") or e["cliente_id"] not in ferramentas.CLIENTES:
@@ -56,7 +60,7 @@ def construir(classificador: Callable[[str], str] = classificar):
     def consultar(e: Estado) -> Estado:
         caminho = e["caminho"] + ["consultar"]
         try:
-            resp = ferramentas.FERRAMENTAS[e["intencao"]](e["cliente_id"])
+            resp = executor(e["intencao"], e["cliente_id"])
         except ferramentas.ClienteNaoEncontrado:
             return {"escalado": True, "motivo": "cliente_nao_encontrado", "caminho": caminho}
         return {"resposta": resp, "escalado": False, "caminho": caminho}

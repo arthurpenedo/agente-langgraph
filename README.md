@@ -19,14 +19,20 @@ START → identificar ─┬─ intenção conhecida → consultar → END
 pip install -e ".[dev]"
 agente-langgraph atender "qual meu saldo?" --cliente c1
 agente-langgraph avaliar
+agente-langgraph atender "bloqueia meu cartão" --cliente c2 --mcp   # ferramentas via MCP (stdio)
 ```
+
+## Ferramentas via MCP
+`servidor_mcp.py` expõe as 4 ferramentas como servidor MCP (stdio) e `mcp_cliente.py` sobe esse servidor e mantém uma sessão aberta;
+o grafo recebe um `executor` e não sabe se a ferramenta é local ou remota. 4 testes (`tests/test_mcp.py`) comparam a resposta via MCP com a local
+e confirmam que o estado do cartão vive no processo do servidor.
 
 ## Avaliação
 10 casos (`avaliacao.py`) checam o **caminho no grafo**, se escalou e o texto da resposta. Resultado local: **10/10 (100%)**,
-12 testes pytest passando. É um conjunto pequeno e escrito por mim, então mostra que o fluxo está correto, não que o
+16 testes pytest passando. É um conjunto pequeno e escrito por mim, então mostra que o fluxo está correto, não que o
 agente resolve qualquer conversa.
 
 ## Limites
 - A classificação é por palavras-chave; frases fora do vocabulário vão para humano (falha segura, mas escala demais).
-- O classificador com Ollama (`atender --modelo ollama`, `llm.py`) foi testado só com respostas simuladas; execução real não medida. Ferramentas via MCP ainda não foram ligadas.
+- O classificador com Ollama (`atender --modelo ollama`, `llm.py`) foi testado só com respostas simuladas; execução real não medida.
 - O ecossistema de agentes do mesmo autor com tool calling e modelos abertos: [agente-banco](https://github.com/arthurpenedo/agente-banco).
