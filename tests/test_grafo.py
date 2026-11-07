@@ -60,3 +60,21 @@ def test_avaliacao_completa_e_restaura_banco():
 def test_cli_avaliar(capsys):
     assert main(["avaliar"]) == 0
     assert "100%" in capsys.readouterr().out
+
+
+def test_cli_atender_imprime_json(capsys):
+    import json
+
+    assert main(["atender", "qual meu saldo?", "--cliente", "c1"]) == 0
+    saida = json.loads(capsys.readouterr().out)
+    assert saida["escalado"] is False
+    assert "1520.40" in saida["resposta"]
+
+
+def test_cli_avaliar_falha_devolve_1(monkeypatch, capsys):
+    from agente_langgraph import cli
+
+    falha = {"ok": 0, "total": 1, "taxa": 0.0, "falhas": [{"caso": "x", "obtido": {}}]}
+    monkeypatch.setattr(cli, "avaliar", lambda: falha)
+    assert main(["avaliar"]) == 1
+    assert "FALHOU: x" in capsys.readouterr().out
