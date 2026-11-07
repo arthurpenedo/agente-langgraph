@@ -62,6 +62,22 @@ def test_cli_avaliar(capsys):
     assert "100%" in capsys.readouterr().out
 
 
+def test_bloquear_cartao_duas_vezes_avisa():
+    assert ferramentas.bloquear_cartao("c1") == "Cartão bloqueado com sucesso."
+    assert ferramentas.bloquear_cartao("c1") == "Seu cartão já estava bloqueado."
+
+
+def test_listar_transacoes_respeita_limite():
+    texto = ferramentas.listar_transacoes("c1", limite=1)
+    assert "Mercado" in texto
+    assert "Salário" not in texto
+
+
+def test_cliente_inexistente_levanta():
+    with pytest.raises(ferramentas.ClienteNaoEncontrado):
+        ferramentas.consultar_saldo("zzz")
+
+
 def test_cli_atender_imprime_json(capsys):
     import json
 
