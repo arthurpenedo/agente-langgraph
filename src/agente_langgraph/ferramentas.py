@@ -27,7 +27,9 @@ def consultar_fatura(cliente_id: str) -> str:
 
 
 def listar_transacoes(cliente_id: str, limite: int = 3) -> str:
-    itens = _cliente(cliente_id)["transacoes"][:limite]
+    itens = _cliente(cliente_id)["transacoes"][: max(limite, 0)]
+    if not itens:
+        return "Não há transações para mostrar."
     return "Últimas transações: " + "; ".join(f"{d} R$ {v:.2f}" for d, v in itens) + "."
 
 
