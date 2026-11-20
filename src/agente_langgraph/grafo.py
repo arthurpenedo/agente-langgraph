@@ -36,7 +36,9 @@ def _norm(texto: str) -> str:
     return re.sub(r"[̀-ͯ]", "", sem)
 
 
-def classificar(mensagem: str) -> str:
+def classificar(mensagem: str | None) -> str:
+    if not isinstance(mensagem, str) or not mensagem.strip():
+        return "desconhecida"  # mensagem vazia ou None vai para o humano, sem quebrar o grafo
     t = _norm(mensagem)
     if any(s in t for s in SENSIVEL):
         return "sensivel"

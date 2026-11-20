@@ -94,3 +94,12 @@ def test_cli_avaliar_falha_devolve_1(monkeypatch, capsys):
     monkeypatch.setattr(cli, "avaliar", lambda: falha)
     assert main(["avaliar"]) == 1
     assert "FALHOU: x" in capsys.readouterr().out
+
+
+def test_mensagem_vazia_ou_none_escala_sem_quebrar():
+    from agente_langgraph.grafo import classificar
+    assert classificar("") == "desconhecida"
+    assert classificar("   ") == "desconhecida"
+    assert classificar(None) == "desconhecida"
+    r = atender(construir(), None, "c1")
+    assert r["escalado"] and r["motivo"] == "intencao_desconhecida"
