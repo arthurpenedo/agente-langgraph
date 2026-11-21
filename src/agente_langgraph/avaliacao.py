@@ -49,4 +49,4 @@ def avaliar(casos=CASOS) -> dict:
     finally:
         ferramentas.CLIENTES.clear()
         ferramentas.CLIENTES.update(original)
-    return {"total": len(casos), "ok": ok, "taxa": ok / len(casos), "falhas": falhas}
+    return {"total": len(casos), "ok": ok, "taxa": ok / len(casos) if casos else 0.0, "falhas": falhas}

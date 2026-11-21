@@ -19,3 +19,8 @@ def test_cliente_que_some_no_meio_escala_para_humano():
     assert r["escalado"] is True
     assert r["motivo"] == "cliente_nao_encontrado"
     assert r["caminho"] == ["identificar", "consultar"]
+
+
+def test_avaliar_sem_casos_nao_divide_por_zero():
+    r = avaliar(casos=[])
+    assert r == {"total": 0, "ok": 0, "taxa": 0.0, "falhas": []}
