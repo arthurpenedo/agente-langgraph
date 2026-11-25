@@ -91,4 +91,6 @@ def construir(classificador: Callable[[str], str] = classificar, executor: Calla
 
 
 def atender(grafo, mensagem: str, cliente_id: str | None = None) -> Estado:
+    if cliente_id is not None:
+        cliente_id = cliente_id.strip().lower()  # " C1" vale como "c1"
     return grafo.invoke({"mensagem": mensagem, "cliente_id": cliente_id, "caminho": []})

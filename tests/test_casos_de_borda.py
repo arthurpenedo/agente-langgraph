@@ -24,3 +24,9 @@ def test_cliente_que_some_no_meio_escala_para_humano():
 def test_avaliar_sem_casos_nao_divide_por_zero():
     r = avaliar(casos=[])
     assert r == {"total": 0, "ok": 0, "taxa": 0.0, "falhas": []}
+
+
+def test_id_de_cliente_com_espaco_e_maiuscula_ainda_identifica():
+    r = atender(construir(), "qual meu saldo", " C1 ")
+    assert r["cliente_id"] == "c1"
+    assert not r["escalado"]
